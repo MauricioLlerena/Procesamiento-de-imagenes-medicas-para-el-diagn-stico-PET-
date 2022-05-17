@@ -2,11 +2,13 @@
 %Ejemplo de edge detection V1.0
 %Equipo PET
 %Francisco Valadez Rojas
+%Andrés Martín Vivanco Palacios
 
 %Cargar imagen
 f=imread('radiograph1.jpg');
 f=imresize(f,0.25);
 f=double(f(:,:,1));
+figure(1)
 imshow(f,[])
 
 %%
@@ -14,8 +16,9 @@ imshow(f,[])
 edgex=[1,-1] 
 g1=conv2(f,edgex,'same');
 imshow(g1,[-10,10]);
-
+title ('Derivada X')
 %%
+%Sobel Mask
 edgey=[-1 -2 -1;0,0,0;1,2,1]/8
 g2=conv2(f,edgey,'same');
 imshow(g2,[-10,10])
@@ -39,6 +42,7 @@ mag=abs(gx)+abs(gy);
 imshow(mag,[]);
 title("Gradient Magnitude |dx|+|gy|")
 %%
+%Estimar el nivel de ruido
 noisemask = [-1, 0 1];
 noiseimage = conv2(f,noisemask,'same');
 noisevariance = mean2(noiseimage.^2);
