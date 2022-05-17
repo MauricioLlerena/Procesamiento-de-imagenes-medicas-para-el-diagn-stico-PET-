@@ -10,7 +10,7 @@ f=double(f(:,:,1));
 imshow(f,[])
 
 %%
-%Detectar orilas con mascara de convolucion
+%Detectar orilas con una mascara de convolucion
 edgex=[1,-1] 
 g1=conv2(f,edgex,'same');
 imshow(g1,[-10,10]);
@@ -28,10 +28,11 @@ imshow(g2,[-10,10])
 %%
 figure(3)
 subplot(1,1,1)
-
+%Mascara de sobel dx y dy para gradiente
 edgex=[1,0,-1;2,0,-2;1,0,-1]/8
 gx=conv2(f,edgex,'same');
 gy=conv2(f,edgey,'same');
+%Gradiente de magnitud
 mag=abs(gx)+abs(gy);
 imshow(mag,[]);
 
