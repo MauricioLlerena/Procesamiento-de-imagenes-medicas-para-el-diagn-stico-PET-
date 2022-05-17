@@ -10,8 +10,7 @@ f=double(f(:,:,1));
 imshow(f,[])
 
 %%
-%Detectar orilas con mascara de convolucion
-edgex=[1,-1] 
+edgex=[1,-1] %Detectar orilas con mascara de convolucion
 g1=conv2(f,edgex,'same');
 imshow(g1,[-10,10]);
 
