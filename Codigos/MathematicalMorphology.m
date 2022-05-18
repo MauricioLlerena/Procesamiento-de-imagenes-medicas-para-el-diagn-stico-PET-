@@ -43,20 +43,21 @@ se = strel('disk',7);
 BW2 = imclose(f,se);
 imshow(BW2), title('Closing')
 % Use different disk size
-% Esta funcion combian el efecto de la dilatacion y la erosion 
+% Esta función combian el efecto de la dilatacion y la erosion 
 %en ese orden especifico cerrando los espacios de la imagen 
 %% Gradient
-% Deteccion de orillas 
-se = strel('disk',1);
+% Deteccion de orillas, entre más grane sea el disco más notorias estas
+% serán
+se = strel('disk',3);
 BW1 = imdilate(f,se) - imerode(f,se);
 imshow(BW1), title('Gradient')
 % Use different disk size
-
 %% Preprocess the Image The Rice Matlab Example
 % Read an image into the workspace.
 
 I = imread('rice.png');
 imshow(I)
+title("Imagen original")
 %% 
 % The background illumination is brighter in the center of the image than at 
 % the bottom. Preprocess the image to make the background illumination more uniform.
