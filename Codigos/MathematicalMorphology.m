@@ -8,7 +8,7 @@ f=double(f(:,:,1));
 f=f/max(max(f));
 f=imresize(f,0.25);
 figure(1)
-imshow(f,[]);
+imshow(f,[]),title('Original')
 
 %% Dilatation
 
