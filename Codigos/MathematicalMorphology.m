@@ -23,7 +23,8 @@ se = strel('disk',5);
 BW3 = imerode(f,se);
 imshow(BW3), title('Eroded')
 % Use different disk size
-imshowpair(BW2,BW3,'montage')
+figure 
+imshowpair(BW2,BW3,'montage');title ('Montaje')
 %% Opening
 
 se = strel('disk',7);
