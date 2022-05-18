@@ -1,6 +1,7 @@
 
 %% Mathematical Morphology
 %Francisco Valadez Rojas
+%Andres Martín Vivanco Palacios 
 
 
 f=imread('radiograph1.jpg');
