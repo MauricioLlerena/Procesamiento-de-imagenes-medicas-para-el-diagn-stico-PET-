@@ -3,6 +3,7 @@
 %Equipo PET
 %Francisco Valadez Rojas
 %Andrés Martín Vivanco Palacios
+%Edio Maricio Llerena Mancías 
 
 %Cargar imagen
 f=imread('radiograph1.jpg');
