@@ -3,6 +3,7 @@
 %Equipo PET
 %Francisco Valadez Rojas
 %Andrés Martín Vivanco Palacios
+%Jesús Gabriel Leos Perales
 
 %Cargar imagen
 f=imread('radiograph1.jpg');
