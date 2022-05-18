@@ -17,7 +17,8 @@ se = strel('disk',5);
 BW2 = imdilate(f,se);
 imshow(BW2), title('Dilated')
 % Use different disk size
-% Utilizando esta funcion disminuyen los colores negros.
+% Utilizando esta funcion disminuyen los colores negros 
+%por lo que entre mayor sea el disco mayor cantidad de color blanco habra .
 %% Erosion
 
 se = strel('disk',5);
@@ -26,22 +27,24 @@ imshow(BW3), title('Eroded')
 % Use different disk size
 figure 
 imshowpair(BW2,BW3,'montage');title ('Montaje')
-%Se utiliza la funciones imerode lo que tiene como efecto disminuir los
+%Se utiliza la funciones imerode lo que tiene el efecto contrario del anterior disminuyendo los
 %colores blancos.
 %% Opening
 
-se = strel('disk',7);
+se = strel('disk',10);
 BW2 = imopen(f,se);
 imshow(BW2), title('Opening')
 % Use different disk size
-% disminuye los bordes por lo que entre mayor sea el disco menos se podran
-% notar
+% Combina la erosion seguida de una dilatacion 
+% desapareciendo elementos pequeños.
 %% Closing
 
 se = strel('disk',7);
 BW2 = imclose(f,se);
 imshow(BW2), title('Closing')
 % Use different disk size
+% Esta funcion combian el efecto de la dilatacion y la erosion 
+%en ese orden especifico cerrando los espacios de la imagen 
 %% Gradient
 % Deteccion de orillas 
 se = strel('disk',1);
