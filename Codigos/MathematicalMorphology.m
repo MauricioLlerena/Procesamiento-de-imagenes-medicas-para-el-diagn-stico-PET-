@@ -54,7 +54,7 @@ imshow(BW1), title('Gradient')
 % Use different disk size
 %% Preprocess the Image The Rice Matlab Example
 % Read an image into the workspace.
-
+%Imagen aleatoria original
 I = imread('rice.png');
 imshow(I)
 title("Imagen original")
