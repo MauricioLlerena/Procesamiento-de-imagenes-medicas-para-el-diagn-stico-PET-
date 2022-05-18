@@ -131,6 +131,7 @@ imshow(labeloverlay(I,out2,'Transparency',0))
 BW3 = bwmorph(BW,'skel',Inf);
 figure
 imshow(BW3)
+% encuentra las orillas 
 %% Lets play with the x-ray
 
 se = strel('disk',7);
