@@ -1,6 +1,4 @@
-
 %% Mathematical Morphology
-%Francisco Valadez Rojas
 
 
 f=imread('radiograph1.jpg');
@@ -14,7 +12,7 @@ imshow(f,[]);
 
 se = strel('disk',5);
 BW2 = imdilate(f,se);
-imshow(BW2), title('Dilated')
+imshow(BW2), title('dilated')
 % Use different disk size
 %% Erosion
 
@@ -133,7 +131,6 @@ imshow(labeloverlay(I,out2,'Transparency',0))
 BW3 = bwmorph(BW,'skel',Inf);
 figure
 imshow(BW3)
-% encuentra las orillas 
 %% Lets play with the x-ray
 
 se = strel('disk',7);
