@@ -1,4 +1,6 @@
+
 %% Mathematical Morphology
+%Francisco Valadez Rojas
 
 
 f=imread('radiograph1.jpg');
@@ -12,7 +14,7 @@ imshow(f,[]);
 
 se = strel('disk',5);
 BW2 = imdilate(f,se);
-imshow(BW2), title('dilated')
+imshow(BW2), title('Dilated')
 % Use different disk size
 %% Erosion
 
