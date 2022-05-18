@@ -10,13 +10,14 @@ f=f/max(max(f));
 f=imresize(f,0.25);
 figure(1)
 imshow(f,[]),title('Original')
-
+% Se despliga la imagen original 
 %% Dilatation
 
 se = strel('disk',5);
 BW2 = imdilate(f,se);
 imshow(BW2), title('Dilated')
 % Use different disk size
+% Utilizando esta funcion disminuyen los colores negros.
 %% Erosion
 
 se = strel('disk',5);
@@ -25,12 +26,16 @@ imshow(BW3), title('Eroded')
 % Use different disk size
 figure 
 imshowpair(BW2,BW3,'montage');title ('Montaje')
+%Se utiliza la funciones imerode lo que tiene como efecto disminuir los
+%colores blancos.
 %% Opening
 
 se = strel('disk',7);
 BW2 = imopen(f,se);
 imshow(BW2), title('Opening')
 % Use different disk size
+% disminuye los bordes por lo que entre mayor sea el disco menos se podran
+% notar
 %% Closing
 
 se = strel('disk',7);
