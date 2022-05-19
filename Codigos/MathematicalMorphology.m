@@ -2,6 +2,7 @@
 %% Mathematical Morphology
 %Francisco Valadez Rojas
 %Andres Martín Vivanco Palacios 
+%Edio Mauricio Llerena Mancías
 
 
 f=imread('radiograph1.jpg');
@@ -140,12 +141,16 @@ imshow(labeloverlay(I,out2,'Transparency',0))
 %Play with the size of Min Branch Lenght
 
 %% The alternative method with bwmorph
+% Get rid of the original image and replace it with the 1-pixel wide white line
+% representing the small spurs in a black background 
 
 BW3 = bwmorph(BW,'skel',Inf);
 figure
 imshow(BW3)
 % encuentra las orillas 
 %% Lets play with the x-ray
+
+% Display the original image with a 1-pixel wide blue line over the bones 
 
 se = strel('disk',7);
 BW3 = f-imopen(f,se);
