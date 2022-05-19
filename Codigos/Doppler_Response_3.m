@@ -18,6 +18,25 @@ imagesc(dop_grid,rng_grid,mag2db(abs(resp)));
 xlabel('Speed (m/s)');
 ylabel('Range (m)');
 title('Range-Doppler Map');
+%% Estimate Doppler and range from range-Doppler response
+%2.1. Load data for a pulsed radar signal
+load RangeDopplerExampleData;
+%2.2. Create a range-Doppler response object
+hrdresp = phased.RangeDopplerResponse(...
+'RangeMethod','FFT',...
+'PropagationSpeed',RangeDopplerEx_Dechirp_PropSpeed,...
+'SampleRate',RangeDopplerEx_Dechirp_Fs,...}
+'DechirpInput',true,...
+'SweepSlope',RangeDopplerEx_Dechirp_SweepSlope);  
+% 2.3. Obtain the range-Doppler response data
+[resp,rng_grid,dop_grid] = step(hrdresp,...
+RangeDopplerEx_Dechirp_X,RangeDopplerEx_Dechirp_Xref);
+% 2.4. Estimate the range and Doppler by finding the location of the máximum responseof the máximum response
+[x_temp,idx_temp] = max(abs(resp));
+[~,dop_idx] = max(x_temp);
+rng_idx = idx_temp(dop_idx);
+dop_est = dop_grid(dop_idx) %Doppler shift
+rng_est = rng_grid(rng_idx) % Distance of target
 %% Range-Doppler response of FMCW signal 
 
 % Load data for a pulse radar signal 
