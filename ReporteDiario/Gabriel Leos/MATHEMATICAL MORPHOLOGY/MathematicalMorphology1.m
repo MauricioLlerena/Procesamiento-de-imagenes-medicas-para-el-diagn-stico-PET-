@@ -1,9 +1,4 @@
-
 %% Mathematical Morphology
-%Francisco Valadez Rojas
-%Andres Martín Vivanco Palacios 
-%Edio Mauricio Llerena Mancías
-%Jesús Gabriel Leos Perales
 
 
 f=imread('radiograph1.jpg');
@@ -11,56 +6,45 @@ f=double(f(:,:,1));
 f=f/max(max(f));
 f=imresize(f,0.25);
 figure(1)
-imshow(f,[]),title('Original')
-% Se despliga la imagen original 
+imshow(f,[]);
+
 %% Dilatation
 
 se = strel('disk',5);
 BW2 = imdilate(f,se);
-imshow(BW2), title('Dilated')
+imshow(BW2), title('dilated')
 % Use different disk size
-% Utilizando esta funcion disminuyen los colores negros 
-%por lo que entre mayor sea el disco mayor cantidad de color blanco habra .
 %% Erosion
 
 se = strel('disk',5);
 BW3 = imerode(f,se);
 imshow(BW3), title('Eroded')
 % Use different disk size
-figure 
-imshowpair(BW2,BW3,'montage');title ('Montaje')
-%Se utiliza la funciones imerode lo que tiene el efecto contrario del anterior disminuyendo los
-%colores blancos.
+imshowpair(BW2,BW3,'montage')
 %% Opening
 
-se = strel('disk',10);
+se = strel('disk',7);
 BW2 = imopen(f,se);
 imshow(BW2), title('Opening')
 % Use different disk size
-% Combina la erosion seguida de una dilatacion 
-% desapareciendo elementos pequeños.
 %% Closing
 
 se = strel('disk',7);
 BW2 = imclose(f,se);
 imshow(BW2), title('Closing')
 % Use different disk size
-% Esta función combian el efecto de la dilatacion y la erosion 
-%en ese orden especifico cerrando los espacios de la imagen 
 %% Gradient
-% Deteccion de orillas, entre más grane sea el disco más notorias estas
-% serán
-se = strel('disk',3);
+
+se = strel('disk',1);
 BW1 = imdilate(f,se) - imerode(f,se);
 imshow(BW1), title('Gradient')
 % Use different disk size
+
 %% Preprocess the Image The Rice Matlab Example
 % Read an image into the workspace.
-%Imagen aleatoria original, esta se muestra con el comando imshow,
-%agregando un título.
+
 I = imread('rice.png');
 imshow(I)
-title("Imagen original")
 %% 
 % The background illumination is brighter in the center of the image than at 
 % the bottom. Preprocess the image to make the background illumination more uniform.
@@ -70,32 +54,20 @@ title("Imagen original")
 % contain the structuring element. Define a disk-shaped structuring element with 
 % a radius of 15, which fits entirely inside a single grain of rice.
 
-se = strel('disk',15);
-% Con esta línea de código, se crea el componente estructural con forma de
-% disco, de tamaño de radio 15, la cual hace que todo arroz quepa dentro
-% del disco.
+se = strel('disk',15)
 %% 
 % To perform the morphological opening, use |imopen| with the structuring element.
 
 background = imopen(I,se);
 imshow(background)
-title('Fondo de la imagen')
-% Lo que se está realizando en esta sección es modificar el fondo con la
-% abertura morfológica, utilizando el elemento que se creó en la sección
-% anterior. Lo que vamos a mostrar va a ser el fondo sin los componentes de
-% arroz.
 %% 
 % Subtract the background approximation image, |background|, from the original 
 % image, |I|, and view the resulting image. After subtracting the adjusted background 
 % image from the original image, the resulting image has a uniform background 
 % but is now a bit dark for analysis.
-% Se ajuasta contraste 
+
 I2 = I - background;
 imshow(I2)
-title('Imagen con fondo uniforme')
-
-% En esta sección se elimina el fondo que es desigual, para resultar en una
-% imagen que solo contenga arroz con un fondo negro uniforme.
 %% 
 % Use |imadjust| to increase the contrast of the processed image |I2| by saturating 
 % 1% of the data at both low and high intensities and by stretching the intensity 
@@ -103,34 +75,23 @@ title('Imagen con fondo uniforme')
 
 I3 = imadjust(I2);
 imshow(I3)
-title('Contraste ajustado')
-
-% Para incrementar un poco el contraste de la imagen con fondo uniforme,
-% deben de saturarse los valores de intensidad al 1% en las bajas y altas
-% intensidades. Para lograr lo anterior, solo se tiene que introducir el
-% como argumento la imagen en la función IMADJUST, ya que el valor del 1%
-% es el predeterminado cuando no se especifica un rango.
 %% 
 % Note that the prior two steps could be replaced by a single step using |imtophat| 
 % which first calculates the morphological opening and then subtracts it from 
 % the original image.
 % 
-%I21 = imtophat(I,strel('disk',15));|
+% |I2 = imtophat(I,strel('disk',15));|
 %% 
 % Create a binary version of the processed image so you can use toolbox functions 
 % for analysis. Use the |imbinarize| function to convert the grayscale image into 
 % a binary image. Remove background noise from the image with the |bwareaopen| 
 % function.
 
-
 bw = imbinarize(I3);
 bw = bwareaopen(bw,50);
 imshow(bw)
-title('Imagen binaria')
 
-% En esta sección se está convirtiendo la imagen a un formato binario para
-% poder utilizar funciones específicas de toolbox para análisis. Con la
-% función BWAREAOPEN se eliminan objetos pequeños de imágenes binarias.
+% Use different size of the structural element
 
 %% Skeletonize 2-D Grayscale Image
 % Read a 2-D grayscale image into the workspace. Display the image. Objects 
@@ -165,16 +126,11 @@ imshow(labeloverlay(I,out2,'Transparency',0))
 %Play with the size of Min Branch Lenght
 
 %% The alternative method with bwmorph
-% Get rid of the original image and replace it with the 1-pixel wide white line
-% representing the small spurs in a black background 
 
 BW3 = bwmorph(BW,'skel',Inf);
 figure
 imshow(BW3)
-% encuentra las orillas 
 %% Lets play with the x-ray
-
-% Display the original image with a 1-pixel wide blue line over the bones 
 
 se = strel('disk',7);
 BW3 = f-imopen(f,se);
