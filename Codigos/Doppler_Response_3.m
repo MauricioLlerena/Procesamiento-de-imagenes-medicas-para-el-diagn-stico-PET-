@@ -52,6 +52,7 @@ hrdresp = phased.RangeDopplerResponse('RangeMethod', 'FFT',...
 figure(2)
 plotResponse(hrdresp, RangeDopplerEx_Dechirp_X,...
     RangeDopplerEx_Dechirp_Xref, 'Unit', 'db', 'NormalizeDoppler', true)
+<<<<<<< HEAD
 
 %% Range speed response pattern of target
 
@@ -132,3 +133,6 @@ rangedoppler = phased.RangeDopplerResponse(...
 
 figure(3)
 plotResponse(rangedoppler, rx_puls, getMatchedFilter(waveform));
+=======
+%% Range speed response pattern of target.
+>>>>>>> fd657158a7dff2c8386128123e0ff985253e64a5
