@@ -1,9 +1,29 @@
+
+%Equipo PET
+%Francisco Valadez Rojas
+
+%24/05/22
+%Version 1.0
+
 f=imread('radiograph1.jpg');
 f=double(f(:,:,1));
 f=f/max(max(f));
 f=imresize(f,0.15);
 figure(1)
 imshow(f,[]);
+
+title('Original')
+%% Thresholding
+
+seg1 = f > 0.5;
+imshow(seg1,[])
+imshow(seg1.*f,[])
+seg1 = f < 0.75;
+imshow(seg1,[])
+imshow(seg1.*f,[])
+seg1 = f == 0.62;
+imshow(seg1,[])
+imshow(seg1.*f,[])
 title ("Imagen original")
 %% Thresholding
 
@@ -18,12 +38,20 @@ imhist(f)
 % Use a third threshold based on the histogram
 %% 
 %% Otsu method
-%analisis del histograma
 thr = graythresh(f)
 seg1 = f > thr;
 imshow(seg1,[])
 dxp=[0,1;-1,0];
 dyp=[1,0;0,-1];
+
+%analisis del histograma
+thr = graythresh(f)
+seg1 = f > thr;
+imshow(seg1,[])
+%Calculo de las orillas con pendiente de Roberts 
+dxp=[0,1;-1,0]; %gradientes 
+dyp=[1,0;0,-1];
+%Mapa de orillas 
 edgemap = abs(conv2(seg1,dxp,'same'))+abs(conv2(seg1,dyp,'same'));
 imshow(f+edgemap,[0,1]);
 
