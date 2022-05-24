@@ -22,8 +22,10 @@ imhist(f)
 thr = graythresh(f)
 seg1 = f > thr;
 imshow(seg1,[])
-dxp=[0,1;-1,0];
+%Calculo de las orillas con pendiente de Roberts 
+dxp=[0,1;-1,0]; %gradientes 
 dyp=[1,0;0,-1];
+%Mapa de orillas 
 edgemap = abs(conv2(seg1,dxp,'same'))+abs(conv2(seg1,dyp,'same'));
 imshow(f+edgemap,[0,1]);
 
