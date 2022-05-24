@@ -4,20 +4,21 @@ f=f/max(max(f));
 f=imresize(f,0.15);
 figure(1)
 imshow(f,[]);
+title ("Imagen original")
 %% Thresholding
 
-seg1 = f > 0.5;
+seg1 = f > 0.5; 
 imshow(seg1,[])
-imshow(seg1.*f,[])
+imshow(seg1.*f,[]) %segmentacion por la imagen 
 seg1 = f < 0.75;
 imshow(seg1,[])
 imshow(seg1.*f,[])
-
+figure 
 imhist(f)
 % Use a third threshold based on the histogram
 %% 
 %% Otsu method
-
+%analisis del histograma
 thr = graythresh(f)
 seg1 = f > thr;
 imshow(seg1,[])
