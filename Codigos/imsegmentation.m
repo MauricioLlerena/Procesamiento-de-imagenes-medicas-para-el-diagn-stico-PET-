@@ -3,9 +3,9 @@
 %Francisco Valadez Rojas
 
 %24/05/22
-%Version 1.0
+%Version 2.0
 
-f=imread('radiograph1.jpg');
+f=imread('CT-abdomenal.jpg');
 f=double(f(:,:,1));
 f=f/max(max(f));
 f=imresize(f,0.15);
@@ -61,37 +61,114 @@ imshow(f+edgemap,[0,1]);
 % Select your own image and compute the otsu threshold
 %% Kmeans segmentation
 
-[L,Centers] = imsegkmeans(int8(255*f),3);
+f=imread("CT-abdomenal.jpg");
+f=double(f(:,:,1));
+f=f/max(max(f));
+imshow(f)
+%Robets Operator
+dxp=[0,1;-1,0];
+dyp=[1,0;0,-1];
+% Disk for clossing labels
+diskse= strel('disk',5);
+diskse11= strel('disk',11);
+
+
+%% Kmeans
+
+% 6 class
+[L,Centers] = imsegkmeans(uint8(255*f),4);
 B = labeloverlay(f,L);
-imshow(B)
+imshow(L,[])
+colormap('hot')
 title("Labeled Image")
-imshow(int8(255*f)<Centers(1),[])
-imshow(int8(255*f)<Centers(2),[])
-imshow(int8(255*f)>Centers(3),[])
-edgemap = abs(conv2(L,dxp,'same'))+abs(conv2(L,dyp,'same'));
+Centers
+%% Clean with morphology each class
+
+%First label
+subplot(1,1,1)
+label_one = L == 1;
+imshow(label_one)
+% remove false negatives wiht imclose
+label_close_one = imclose(label_one,diskse);
+imshow(label_close_one)
+
+%second label
+label_two = L == 2;
+% remove false negatives wiht imclose
+label_close_two = imclose(label_two,diskse);
+imshow(label_close_two)
+
+%Third label
+label_three = L == 3;
+% remove false negatives wiht imclose
+label_close_three = imclose(label_three,diskse);
+imshow(label_close_three)
+
+%Fourth label
+label_four = L == 4;
+% remove false negatives wiht imclose
+label_close_four = imclose(label_four,diskse);
+imshow(label_close_four)
+
+
+%% Connected components of Label 3
+
+cc = bwconncomp(label_close_three,4);
+labeled = labelmatrix(cc);
+imshow(labeled,[])
+colormap('cool')
+
+% show left hip
+%%
+% Using the data tips we find out the label of the left lung
+HipLabel = 51;
+imshow(labeled==HipLabel,[])
+B = labeloverlay(f,labeled==HipLabel);
+imshow(B)
+title("Left Hip overlay")
+%%
+seg1 = labeled==LungLabel;
+edgemap = abs(conv2(seg1,dxp,'same'))+abs(conv2(seg1,dyp,'same'));
 imshow(f+edgemap,[0,1]);
+title("Left Hip Edges")
+%%
+label_hip = imclose(seg1,diskse11);
+imshow(label_hip)
 
-% Do the same procedure but now with 5 centers.
-% Is the segmentation better?
-%% Watershed segmentation
 
-edgeC = edge(f,'Canny');
+%% Watershed
+
+edgeC = edge(f,'Canny',0.2,2);
 imshow(edgeC,[])
 D = bwdist(edgeC);
 imshow(D,[])
 title('Distance Transform of Binary Image')
+%%
+mesh(D)
 L = watershed(D);
-
+%%
 edgemap = abs(conv2(L,dxp,'same'))+abs(conv2(L,dyp,'same'));
 imshow(f+edgemap,[0,1]);
+%%
+imshow(L,[])
+colormap('cool')
+%%
+%The lung is made of several components. We must merge the labels
+Leftlung = L==202 | L==197 | L==184 | L==178 | L==209;
 
+imshow(Leftlung,[])
+%%
+Lefthip_close = imclose(Leftlung,diskse);
+imshow(Lefthip_close)
+%%
+B = labeloverlay(f,Lefthip_close);
+imshow(B)
+title("Left Lung overlay")
 
-L(edgeC) = 0;
-%% 
-% Display the resulting label matrix as an RGB image.
+% remove false positives wiht imopen
+label_hip = imopen(Lefthip_close,diskse11);
+imshow(label_hip)
 
-rgb = label2rgb(L,'jet',[.5 .5 .5]);
-imshow(rgb)
-title('Watershed Transform')
-
-% provide an alterante segmentation based on a different edge detector
+B = labeloverlay(f,label_hip);
+imshow(B)
+title("Final Left Lung overlay")
